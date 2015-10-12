@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--指向具体的dao  -->
+<mapper namespace="hxk.dao.FunctionDao">
+
+	<!--  开启二级缓存-->
+	<cache />
+	
+	<resultMap type="function" id="functions">
+		<id column="id" property="id"/>
+		<id column="userid" property="userid"/>
+		<id column="url" property="url"/>
+	</resultMap>
+
+	<!--id是对应接口里面的方法名字  -->
+	<insert id="save" parameterType="function">
+		insert into function(id,userid,url) values(#{id},#{userid},#{url})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="function">
+		update function set userid=#{userid},url=#{url} where id=#{id}
+	</update>
+	
+	<!-- 查找 -->
+	<select id="find" parameterType="string" resultType="function">
+		select * from function where userid=#{userid}
+	</select>
+	
+	<!-- 查找 -->
+	<select id="findAll"  resultMap="functions">
+		select * from function 
+	</select>
+	
+	<!-- 查找 -->
+	<select id="findByName"  resultMap="functions" parameterType="string">
+		select * from function  where userid = #{userid}
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from user where id=#{id}
+	</delete>
+</mapper>

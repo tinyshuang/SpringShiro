@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--指向具体的dao  -->
+<mapper namespace="hxk.dao.RoleDao">
+
+	<!--  开启二级缓存-->
+	<cache />
+	
+	<resultMap type="role" id="roles">
+		<id column="id" property="id"/>
+		<id column="userid" property="userid"/>
+		<id column="roleName" property="roleName"/>
+	</resultMap>
+
+	<!--id是对应接口里面的方法名字  -->
+	<insert id="save" parameterType="role">
+		insert into role(id,userid,roleName) values(#{id},#{userid},#{roleName})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="role">
+		update role set userid=#{userid},roleName=#{roleName} where id=#{id}
+	</update>
+	
+	<!-- 查找 -->
+	<select id="find" parameterType="string" resultType="role">
+		select * from role where userid=#{userid}
+	</select>
+	
+	<!-- 查找 -->
+	<select id="findAll"  resultMap="roles">
+		select * from role 
+	</select>
+	
+	<!-- 查找 -->
+	<select id="findByName"  resultMap="roles" parameterType="string">
+		select * from role  where userid = #{userid}
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from user where id=#{id}
+	</delete>
+</mapper>
