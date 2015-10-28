@@ -33,6 +33,7 @@ insert into role values("2","role","role");
 
 
 insert into function values ("1","admin","/admin");
+insert into function values ("2","tinys","needPermission");
 
 
 

@@ -25,14 +25,17 @@
         <!-- 过滤链定义 -->  
         <property name="filterChainDefinitions">  
             <value>  
+                <!-- 注意这里需要把前缀写全.../shiro这里 -->
+            	/shiro/login.do*=anon
                 /login.jsp* = anon  
-                /index.jsp* = authc  
-                /index.do* = authc  
                 /admin.jsp*=authc,perms[/admin]
                 /role.jsp*=authc,roles[role]
+                /** = authc
              </value>  
         </property>  
     </bean>  
+  
+  
   
     <!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
@@ -40,6 +43,8 @@
     </bean>  
     <!-- 自定义Realm实现 -->  
     <bean id="myRealm" class="hxk.interceptor.CustomRealm" />  
+    
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
     
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
 	   <property name="prefix" value="/"/>  
