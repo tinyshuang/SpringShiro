@@ -44,6 +44,19 @@ public class ShiroAction {
 	 }  
     }
     
+    /**
+     * @description 登出页面	
+     * @return
+     *2015年10月28日  上午10:28:26
+     *返回类型:String
+     */
+    @RequestMapping("logout")
+    public String logout(){
+	Subject subject = SecurityUtils.getSubject();
+	subject.logout();
+	return "login";
+    }
+    
     
     /**
      * @description 使用@RequiresAuthentication标签来定义需要认证
@@ -58,7 +71,6 @@ public class ShiroAction {
 	return "index";
     }
     
-    
     /**
      * @description 使用@RequiresRoles("role")来定义这个subject需要某个角色	
      * @return
@@ -70,7 +82,6 @@ public class ShiroAction {
     public String needRole(){
 	return "index";
     }
-    
     
     /**
      * @description 使用@RequiresPermissions("needPermission")来定义这个subject需要某个权限	
@@ -95,6 +106,7 @@ public class ShiroAction {
     public String noAnnotation(){
 	return "index";
     }
+    
     
     
 }
