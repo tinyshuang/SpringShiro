@@ -33,39 +33,55 @@ shiro.xml : shiro的主要配置...
         </property>  
 
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------        
 2015-10-28更新
 --通过添加了以下内容来使用注解方式配置权限....
-    <!-- Support Shiro Annotation 必须放在springMVC配置文件中 -->
+	<!-- Support Shiro Annotation 必须放在springMVC配置文件中 -->
 
-    <!-- 异常处理，权限注解会抛出异常，根据异常返回相应页面 -->
-    <bean
-        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="exceptionMappings">
-            <props>
-                <prop key="org.apache.shiro.authz.UnauthorizedException">unauth</prop>
-                <prop key="org.apache.shiro.authz.UnauthenticatedException">login</prop>
-            </props>
-        </property>
-    </bean>
-    <bean
-        class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-        depends-on="lifecycleBeanPostProcessor" />
-    <bean
-        class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager" />
-    </bean>
-    <!-- end -->
-    
+	<!-- 异常处理，权限注解会抛出异常，根据异常返回相应页面 -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">unauth</prop>
+				<prop key="org.apache.shiro.authz.UnauthenticatedException">login</prop>
+			</props>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	<!-- end -->
+	
 --修改了过滤链
 <!-- 过滤链定义 -->  
 //简单的讲就是把需要特别处理的路径写到前面,越特殊写到越前
         <property name="filterChainDefinitions">  
             <value>  
                 <!-- 注意这里需要把前缀写全.../shiro这里 -->
-                /shiro/login.do*=anon
+            	/shiro/login.do*=anon
                 /login.jsp* = anon  
                 /admin.jsp*=authc,perms[/admin]
                 /role.jsp*=authc,roles[role]
                 /** = authc
              </value>  
         </property>  
+        
+ ---------------------------------------------------------------------------------------------------------------------------------------------------
+ 15-10-29
+ 添加了使用ehcache的缓存机制
+ <!-- securityManager -->  
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+        <property name="realm" ref="myRealm" />  
+         <property name="cacheManager" ref="shiroEhcacheManager" />
+    </bean>  
+    
+    <!-- 用户授权信息Cache, 采用EhCache，需要的话就配置上此信息 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
+    </bean>
+ 
