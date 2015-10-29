@@ -85,3 +85,51 @@ shiro.xml : shiro的主要配置...
         <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
     </bean>
  
+
+ 添加了redis缓存...
+   <!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->  
+    <!-- securityManager -->  
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+        <property name="realm" ref="myRealm" />  
+        <!-- 配置ehcache缓存,如果是本机,没分布式的话,可以考虑就选择ehcache缓存 -->
+         <property name="cacheManager" ref="shiroEhcacheManager" />
+         <!-- 如果有多台机子的话,可以考虑部署redis分布式缓存.. -->
+         <property name="sessionManager" ref="sessionManager" />
+    </bean>  
+    
+    <!-- 用户授权信息Cache, 采用EhCache，需要的话就配置上此信息 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
+    </bean>
+    
+    
+     <!--保持 Session 到 Redis-->
+    <bean id="redisManager" class="hxk.util.redis.RedisManager"/>
+
+	<!-- 配置redis的ＤＡＯ -->
+    <bean id="redisSessionDAO" class="hxk.util.redis.RedisSessionDAO">
+        <property name="redisManager" ref="redisManager"/>
+        <property name="timeToLiveSeconds" value="180"/>
+    </bean>
+
+	<!-- 配置shiro提供的session管理者.. -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="redisSessionDAO" />
+        <!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->  
+        <property name="sessionIdCookie" ref="sharesession" />  
+    </bean>
+    
+    
+    
+    <!-- 这里很重要,配置每次读取的cookie的名字..不会因为cookie的问题而读取到不同(错误的)jessessionid..
+    	   目的就是让用户整个访问过程中,项目读取到用户浏览器的同一个cookie..就会有一样的jessessionid..
+     -->
+    <!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->  
+    <bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">  
+        <!-- cookie的name,对应的默认是 JSESSIONID -->  
+        <constructor-arg name="name" value="SHAREJSESSIONID" />  
+        <!-- jsessionId的path为 / 用于多个系统共享jsessionId -->  
+        <property name="path" value="/" />  
+        <property name="httpOnly" value="true"/>  
+    </bean>  
+     <!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!end -->  
