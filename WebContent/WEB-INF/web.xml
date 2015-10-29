@@ -12,7 +12,8 @@
     <param-value>
     	/WEB-INF/spring-servlet.xml,
     	/WEB-INF/shiro.xml,
-    	/WEB-INF/database.xml
+    	/WEB-INF/database.xml,
+    	/WEB-INF/redis.xml
     </param-value>  
 </context-param>  
   

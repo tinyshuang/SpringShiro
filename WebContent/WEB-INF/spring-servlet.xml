@@ -25,29 +25,6 @@
 	</bean>
 	
 	
-	<!-- Support Shiro Annotation 必须放在springMVC配置文件中 -->
-
-	<!-- 异常处理，权限注解会抛出异常，根据异常返回相应页面 -->
-	<bean
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="org.apache.shiro.authz.UnauthorizedException">unauth</prop>
-				<prop key="org.apache.shiro.authz.UnauthenticatedException">login</prop>
-			</props>
-		</property>
-	</bean>
-	<bean
-		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-		depends-on="lifecycleBeanPostProcessor" />
-	<bean
-		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<property name="securityManager" ref="securityManager" />
-	</bean>
-	<!-- end -->
-	
-	
-	
 	
 	
 </beans>  
