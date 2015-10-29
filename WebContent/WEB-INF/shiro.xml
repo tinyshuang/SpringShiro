@@ -40,7 +40,14 @@
     <!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myRealm" />  
+         <property name="cacheManager" ref="shiroEhcacheManager" />
     </bean>  
+    
+    <!-- 用户授权信息Cache, 采用EhCache，需要的话就配置上此信息 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
+    </bean>
+    
     <!-- 自定义Realm实现 -->  
     <bean id="myRealm" class="hxk.interceptor.CustomRealm" />  
     

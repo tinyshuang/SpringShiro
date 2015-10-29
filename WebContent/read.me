@@ -30,7 +30,7 @@ shiro.xml : shiro的主要配置...
              </value>  
         </property>  
 
-        
+-------------------------------------------------------------------------------------------------------------------------------------------------------------        
 2015-10-28更新
 --通过添加了以下内容来使用注解方式配置权限....
 	<!-- Support Shiro Annotation 必须放在springMVC配置文件中 -->
@@ -67,6 +67,23 @@ shiro.xml : shiro的主要配置...
                 /** = authc
              </value>  
         </property>  
+        
+ ---------------------------------------------------------------------------------------------------------------------------------------------------
+ 15-10-29
+ 添加了使用ehcache的缓存机制
+ <!-- securityManager -->  
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+        <property name="realm" ref="myRealm" />  
+         <property name="cacheManager" ref="shiroEhcacheManager" />
+    </bean>  
+    
+    <!-- 用户授权信息Cache, 采用EhCache，需要的话就配置上此信息 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
+    </bean>
+ 
+ 
+           
         
         
         
