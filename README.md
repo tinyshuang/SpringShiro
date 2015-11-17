@@ -74,18 +74,25 @@
 	</bean>
 	<!-- end -->`
 	
-###修改了过滤链
+###修改了过滤链  
 
-`<!-- 过滤链定义 -->  
-//简单的讲就是把需要特别处理的路径写到前面,越特殊写到越前
+`<!-- 过滤链定义 -->   
+
+	//简单的讲就是把需要特别处理的路径写到前面,越特殊写到越前
         <property name="filterChainDefinitions">  
             <value>  
-                <!-- 注意这里需要把前缀写全.../shiro这里 -->
-            	/shiro/login.do*=anon
-                /login.jsp* = anon  
-                /admin.jsp*=authc,perms[/admin]
-                /role.jsp*=authc,roles[role]
-                /** = authc
+                <!-- 注意这里需要把前缀写全.../shiro这里 -->  
+                
+            	/shiro/login.do*=anon  
+            	
+                /login.jsp* = anon   
+                
+                /admin.jsp*=authc,perms[/admin]  
+                
+                /role.jsp*=authc,roles[role]  
+                
+                /** = authc  
+                
              </value>  
         </property>`  
         
@@ -106,8 +113,10 @@
     
  
 
- ###添加了redis缓存...
-   `<!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->  
+ ###添加了redis缓存...  
+ 
+   `<!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->    
+   
     <!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myRealm" />  
