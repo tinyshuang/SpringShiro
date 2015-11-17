@@ -100,7 +100,7 @@
 
 ## 15-10-29  添加了使用ehcache的缓存机制  
 
-` <!-- securityManager -->  
+    `<!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myRealm" />  
          <property name="cacheManager" ref="shiroEhcacheManager" />
