@@ -1,27 +1,34 @@
 # SpringShiro
 
+##项目说明 :  
+
 这是一个shiro的入门Demo..
 使用了Spring MVC,mybaits等技术..
 
-数据库设计 :
-
-User : name--password
-Role : id--userid--roleName
-Function : id--userid--url
-
-tinys普通用户只能访问index.jsp
-admin用户通过添加了admin的permission,所以可以访问admin.jsp
-role用户通过添加了role角色,所以可以访问role.jsp
-
-这是最基本的shiro的运用..目的是让你快速了解shiro的机制..
 
 
-这个Demo体现shiro的地方主要在两个类以及shiro.xml的配置文件
-CustomRealm : 处理了登录验证以及授权..
-ShiroAction : 用来传递登录时的用户数据..转换为token传递给realm...之后根据结果做相应的逻辑处理..
-shiro.xml : shiro的主要配置...
-	规则定义在以下地方 :
-		<!-- 过滤链定义 -->  
+###数据库设计 :
+
+1.User : name--password
+2.Role : id--userid--roleName
+3.Function : id--userid--url
+
+*tinys普通用户只能访问index.jsp
+*admin用户通过添加了admin的permission,所以可以访问admin.jsp
+*role用户通过添加了role角色,所以可以访问role.jsp
+
+
+
+###这是最基本的shiro的运用..目的是让你快速了解shiro的机制..
+
+*这个Demo体现shiro的地方主要在两个类以及shiro.xml的配置文件  
+*CustomRealm : 处理了登录验证以及授权..
+*ShiroAction : 用来传递登录时的用户数据..转换为token传递给realm...之后根据结果做相应的逻辑处理..
+*shiro.xml : shiro的主要配置...  
+
+	规则定义在以下地方 :  
+	
+	`<!-- 过滤链定义 -->  
         <property name="filterChainDefinitions">  
             <value>  
                 /login.jsp* = anon  
@@ -30,13 +37,13 @@ shiro.xml : shiro的主要配置...
                 /admin.jsp*=authc,perms[/admin]
                 /role.jsp*=authc,roles[role]
              </value>  
-        </property>  
+        </property> `
 
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------        
-2015-10-28更新
---通过添加了以下内容来使用注解方式配置权限....
-	<!-- Support Shiro Annotation 必须放在springMVC配置文件中 -->
+-----------------------------------------------------------------------------------------------------------------------------      
+##2015-10-28更新 通过添加了以下内容来使用注解方式配置权限....
+	
+	`<!-- Support Shiro Annotation 必须放在springMVC配置文件中 -->
 
 	<!-- 异常处理，权限注解会抛出异常，根据异常返回相应页面 -->
 	<bean
@@ -55,10 +62,11 @@ shiro.xml : shiro的主要配置...
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
-	<!-- end -->
+	<!-- end -->`
 	
---修改了过滤链
-<!-- 过滤链定义 -->  
+###修改了过滤链
+
+`<!-- 过滤链定义 -->  
 //简单的讲就是把需要特别处理的路径写到前面,越特殊写到越前
         <property name="filterChainDefinitions">  
             <value>  
@@ -69,12 +77,13 @@ shiro.xml : shiro的主要配置...
                 /role.jsp*=authc,roles[role]
                 /** = authc
              </value>  
-        </property>  
+        </property>`  
         
- ---------------------------------------------------------------------------------------------------------------------------------------------------
- 15-10-29
- 添加了使用ehcache的缓存机制
- <!-- securityManager -->  
+ ----------------------------------------------------------------------------------------------------------------------------
+
+## 15-10-29  添加了使用ehcache的缓存机制  
+
+` <!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myRealm" />  
          <property name="cacheManager" ref="shiroEhcacheManager" />
@@ -83,11 +92,12 @@ shiro.xml : shiro的主要配置...
     <!-- 用户授权信息Cache, 采用EhCache，需要的话就配置上此信息 -->
     <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
-    </bean>
+    </bean>`
+    
  
 
- 添加了redis缓存...
-   <!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->  
+ ###添加了redis缓存...
+   `<!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->  
     <!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myRealm" />  
@@ -132,4 +142,4 @@ shiro.xml : shiro的主要配置...
         <property name="path" value="/" />  
         <property name="httpOnly" value="true"/>  
     </bean>  
-     <!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!end -->  
+     <!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!end -->`  
