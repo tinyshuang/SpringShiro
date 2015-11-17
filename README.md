@@ -113,9 +113,9 @@
     
  
 
- ### 添加了redis缓存...  
+### 添加了redis缓存...  
  
-   `<!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->    
+    `<!-- 缓存相关配置  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!begin -->    
    
     <!-- securityManager -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
